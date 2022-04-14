@@ -14,6 +14,7 @@ const methodOverride = require('./middlewares/method-mw');
 
 const notFoundRouter = require('./routes/error/err404-router');
 const errorRouter = require('./routes/error/err-router');
+const joinRouter = require('./routes/user/join-router');
 const userRouter = require('./routes/user/user-router');
 
 /* server init */
@@ -52,6 +53,7 @@ app.locals.pretty = true;
 app.locals.headTitle = '비상교육-nodejs';
 
 /* dynamic router init */
+app.use('/join', joinRouter);
 app.use('/user', userRouter);
 
 /* error router init */
