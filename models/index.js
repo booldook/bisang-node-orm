@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs-extra');
 const Sequelize = require('sequelize');
+const { Op } = require('sequelize');
 const config = {
   dialect: process.env.DB_DIALECT,
   host: process.env.DB_HOST,
@@ -26,6 +27,7 @@ Object.keys(db).forEach(modelName => {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+db.Op = Op;
 // db { User, Post, sequelize, Sequelize }
 
 module.exports = db;

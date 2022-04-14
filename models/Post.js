@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  return sequelize.define('Post', {
+  const Post = sequelize.define('Post', {
     idx: {
       type: Sequelize.INTEGER(10).UNSIGNED,
       primaryKey: true,
@@ -25,4 +25,18 @@ module.exports = (sequelize, Sequelize) => {
     collate: 'utf8_general_ci',
     paranoid: true,
   });
+
+  Post.associate = (models) => {
+    Post.belongsTo(models.User, {
+      foreignKey: {
+        name: 'user_idx',
+        allowNull: false,
+      },
+      sourceKey: 'idx',
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    })
+  }
+
+  return Post;
 }

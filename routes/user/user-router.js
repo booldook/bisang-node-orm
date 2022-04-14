@@ -7,7 +7,12 @@ const { pool } = require('../../modules/mysql-init');
 const { User } = require('../../models');
 
 router.get(['/', '/:idx'], async (req, res, next) => {
-  const obj = {}
+  const obj = {
+    attributes: ['username', 'userid'],
+    order: [
+      ['idx', 'DESC']
+    ]
+  }
   if(req.params.idx) obj.where = { idx: req.params.idx };
   const users = await User.findAll(obj);
   res.json(users);

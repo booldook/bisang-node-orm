@@ -21,7 +21,7 @@ const userRouter = require('./routes/user/user-router');
 app.listen(process.env.PORT, () => console.log('Server Running : http://127.0.0.1:' + process.env.PORT));
 
 /* sequelize init */
-sequelize.sync({  });
+sequelize.sync({ /* force: true */ });
 
 /* middleware init */
 app.use(express.json()); // req.body

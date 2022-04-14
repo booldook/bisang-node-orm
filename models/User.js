@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
   // return sequelize.define('객체명', 필드정보, 테이블정보)
-  return sequelize.define('User', {
+  const User = sequelize.define('User', {
     idx: {
       type: Sequelize.INTEGER(10).UNSIGNED,
       primaryKey: true,
@@ -34,4 +34,19 @@ module.exports = (sequelize, Sequelize) => {
     collate: 'utf8_general_ci',
     paranoid: true,
   });
+
+  // hasOne, hasMany, belongsTo, belongsToMany
+  User.associate = (models) => {
+    User.hasMany(models.Post, {
+      foreignKey: {
+        name: 'user_idx',
+        allowNull: false,
+      },
+      sourceKey: 'idx',
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    })
+  }
+
+  return User;
 }
