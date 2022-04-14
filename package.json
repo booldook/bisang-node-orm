@@ -28,10 +28,12 @@
     "mysql2": "^2.3.3",
     "pug": "^3.0.2",
     "rotating-file-stream": "^3.0.3",
+    "sequelize": "^6.19.0",
     "uuid": "^8.3.2",
     "validator": "^13.7.0"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "sequelize-cli": "^6.4.1"
   }
 }
