@@ -5,13 +5,22 @@ require('dotenv').config({ path: path.join(__dirname, '.env.' + process.env.NODE
 const express = require('express');
 const app = express();
 
+const { sequelize } = require('./models')
+
 const logger = require('./middlewares/logger-mw');
 const expressSession = require('./middlewares/session-mw');
 const local = require('./middlewares/local-mw');
 const methodOverride = require('./middlewares/method-mw');
 
+const notFoundRouter = require('./routes/error/err404-router');
+const errorRouter = require('./routes/error/err-router');
+const userRouter = require('./routes/user/user-router');
+
 /* server init */
 app.listen(process.env.PORT, () => console.log('Server Running : http://127.0.0.1:' + process.env.PORT));
+
+/* sequelize init */
+sequelize.sync({  });
 
 /* middleware init */
 app.use(express.json()); // req.body
@@ -43,7 +52,7 @@ app.locals.pretty = true;
 app.locals.headTitle = '비상교육-nodejs';
 
 /* dynamic router init */
-
+app.use('/user', userRouter);
 
 /* error router init */
 app.use(notFoundRouter);
