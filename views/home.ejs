@@ -1,0 +1,21 @@
+<%- include('./include/header.ejs') %>
+<h1>HOME / 회원리스트</h1>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>번호</th>
+      <th>이름</th>
+      <th>이메일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for(let { id, name, email } of users) { %>
+      <tr>
+        <td><%= id %></td>
+        <td><%= name %></td>
+        <td><%= email %></td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
+<%- include('./include/footer.ejs') %>

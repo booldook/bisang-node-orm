@@ -1,0 +1,32 @@
+<%- include('../include/header.ejs') %>
+<h1 style="margin: 1em 0;">POST / <%= title %></h1>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>번호</th>
+      <th>표지</th>
+      <th>제목</th>
+      <th>내용</th>
+      <th>작성자</th>
+      <th>작성일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for(let { idx, src, title, writer, content, wdate } of posts) { %>
+      <tr>
+        <td><%= idx %></td>
+        <td>
+          <img src="<%= src %>" alt="표지" style="max-width: 60px;">
+        </td>
+        <td><a href="/post/<%= idx %>"><%= title %></a></td>
+        <td><%= content %></td>
+        <td><%= writer %></td>
+        <td><%= wdate %></td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
+<div class="my-3">
+  <%- include('../include/pager.ejs') %>
+</div>
+<%- include('../include/footer.ejs') %>

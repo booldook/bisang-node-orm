@@ -1,0 +1,36 @@
+<%- include ('../include/header.ejs') %>
+<div class="container mt-5">
+  <h1 class="mb-3">글 저장</h1>
+  <hr>
+  <form action="/post" method="POST" enctype="multipart/form-data">
+    <table class="table">
+      <tbody>
+        <tr>
+          <td class="title">제목</td>
+          <td class="content"><input type="text" name="title" class="form-control"></td>
+        </tr>
+        <tr>
+          <td class="title">작성자</td>
+          <td class="content"><input type="text" name="writer" class="form-control"></td>
+        </tr>
+        <tr>
+          <td class="title">내용</td>
+          <td class="content">
+            <textarea name="content" class="form-control"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td class="title">첨부파일</td>
+          <td class="content">
+            <input type="file" name="upfile" class="form-control-file">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="text-center my-3">
+      <button class="btn btn-primary">저장</button>
+    </div>
+  </form>
+</div>
+
+<%- include ('../include/footer.ejs') %>

@@ -1,0 +1,28 @@
+<link rel="stylesheet" href="/css/pager.css">
+<div class="pager-wrapper">
+  <ul class="pager-wrap">
+    <li class="pager pager-first">
+      <a href="/posts/" class="material-icons">first_page</a>
+    </li>
+    <li class="pager pager-prev-set">
+      <a href="/posts/<%= prevPager %>" class="material-icons">keyboard_double_arrow_left</a>
+    </li>
+    <li class="pager pager-prev">
+      <a href="/posts/<%= prevPage %>" class="material-icons">chevron_left</a>
+    </li>
+    <% for(let i=startPage; i<=endPage; i++) { %>
+    <li class="pager <%= page === i ? 'active' : '' %>">
+      <a href="/posts/<%= i %>"><%= i %></a>
+    </li>
+    <% } %>
+    <li class="pager pager-next">
+      <a href="/posts/<%= nextPage %>" class="material-icons">chevron_right</a>
+    </li>
+    <li class="pager pager-next-set">
+      <a href="/posts/<%= nextPager %>" class="material-icons">keyboard_double_arrow_right</a>
+    </li>
+    <li class="pager pager-last">
+      <a href="/posts/<%= totalPage %>" class="material-icons">last_page</a>
+    </li>
+  </ul>
+</div>

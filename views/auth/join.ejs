@@ -1,0 +1,36 @@
+<%- include ('../include/header.ejs') %>
+<div class="container mt-5">
+  <h1 class="mb-3">회원가입</h1>
+  <hr>
+  <form action="/join" method="POST" name="join-form">
+    <table class="table">
+      <tbody>
+        <tr>
+          <td class="title">아이디</td>
+          <td class="content"><input type="text" name="userid" class="form-control"></td>
+        </tr>
+        <tr>
+          <td class="title">패스워드</td>
+          <td class="content"><input type="password" name="userpw" class="form-control"></td>
+        </tr>
+        <tr>
+          <td class="title">패스워드확인</td>
+          <td class="content"><input type="password" name="userpw2" class="form-control"></td>
+        </tr>
+        <tr>
+          <td class="title">이름</td>
+          <td class="content"><input type="text" name="username" class="form-control"></td>
+        </tr>
+        <tr>
+          <td class="title">이메일</td>
+          <td class="content"><input type="text" name="email" class="form-control"></td>
+        </tr>     
+      </tbody>
+    </table>
+    <div class="text-center my-3">
+      <button class="btn btn-primary">회원가입</button>
+      <button type="reset" class="btn btn-danger">다시작성</button>
+    </div>
+  </form>
+</div>
+<%- include ('../include/footer.ejs') %>

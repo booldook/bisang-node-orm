@@ -1,0 +1,6 @@
+ul {list-style: none;}
+.pager-wrapper {display: flex; justify-content: center; margin: 2em 0;}
+.pager-wrapper .pager-wrap {display: flex; justify-content: center;}
+.pager-wrapper .pager-wrap .pager {width: 36px; height: 36px; border: 1px solid #dedede; margin-right: -1px; color: #555; font-size: .875em;}
+.pager-wrapper .pager-wrap .pager.active {background-color: #073161; color: #fff;}
+.pager-wrapper .pager-wrap .pager a {display: flex; width: 100%; height: 100%; justify-content: center; align-items: center; text-decoration: none; color: inherit;}
