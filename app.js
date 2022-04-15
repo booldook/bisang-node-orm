@@ -1,24 +1,34 @@
-/* global */
+/* global import */
+require('./modules/dotenv-init')();
 const path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '.env.' + process.env.NODE_ENV) });
-
 const express = require('express');
 const app = express();
 
-const { sequelize } = require('./models')
+/* model import */
+const { sequelize } = require('./models');
 
+/* middleware import */
 const logger = require('./middlewares/logger-mw');
 const expressSession = require('./middlewares/session-mw');
 const local = require('./middlewares/local-mw');
 const methodOverride = require('./middlewares/method-mw');
 
+/* router import */
+const postsRouter = require('./routes/post/posts-router');
+const postRouter = require('./routes/post/post-router');
+const joinRouter = require('./routes/auth/join-router');
+const authRouter = require('./routes/auth/auth-router');
 const notFoundRouter = require('./routes/error/err404-router');
 const errorRouter = require('./routes/error/err-router');
-const joinRouter = require('./routes/user/join-router');
-const userRouter = require('./routes/user/user-router');
 
 /* server init */
 app.listen(process.env.PORT, () => console.log('Server Running : http://127.0.0.1:' + process.env.PORT));
+
+/* view init */
+app.set('view engine', 'ejs');
+app.set('views', './views');
+app.locals.pretty = true;
+app.locals.headTitle = '비상교육-nodejs';
 
 /* sequelize init */
 sequelize.sync({ /* force: true */ });
@@ -46,15 +56,11 @@ app.use('/uploads', express.static(path.join(__dirname, 'storages'))); // html, 
 /* logger */
 app.use(logger());
 
-/* view init */
-app.set('view engine', 'ejs');
-app.set('views', './views');
-app.locals.pretty = true;
-app.locals.headTitle = '비상교육-nodejs';
-
 /* dynamic router init */
+app.use('/posts', postsRouter);
+app.use('/post', postRouter);
 app.use('/join', joinRouter);
-app.use('/user', userRouter);
+app.use('/auth', authRouter);
 
 /* error router init */
 app.use(notFoundRouter);
