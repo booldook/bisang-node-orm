@@ -112,14 +112,20 @@ router.get('/download/:idx', async (req, res, next) => {  // 다운로드 구현
 
 router.delete('/', isMine('DELETE'), async (req, res, next) => {
   try {
-    const fileSql = 'SELECT savename FROM files WHERE post_idx=?';
+    const file = await File.findOne({ where: { post_idx: req.body.idx }, raw: true });
+    if(file) {
+      await fs.remove(imgPathAbs(file.savename));
+    }
+    const post = await Post.destroy({ where: { idx: req.body.idx } });
+    res.redirect('/');
+    /* const fileSql = 'SELECT savename FROM files WHERE post_idx=?';
     const [rs] = await pool.execute(fileSql, [req.body.idx]);
     if(rs.length && rs[0].savename) {
       await fs.remove(imgPathAbs(rs[0].savename));
     }
     const removeSql = 'DELETE FROM posts WHERE idx=?';
     const [rs2] = await pool.execute(removeSql, [req.body.idx]);
-    res.redirect('/');
+    res.redirect('/'); */
   }
   catch(err) {
     next(createError(500, err))

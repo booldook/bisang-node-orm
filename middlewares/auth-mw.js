@@ -1,5 +1,5 @@
 const createError = require('http-errors');
-const { pool } = require('../modules/mysql-init');
+const { User, Post } = require('../models')
 
 const isUser = (req, res, next) => {
   if(req.session && req.session.user && req.session.user.grade >= 1) next();
@@ -22,8 +22,9 @@ const isMine = (_mode) => {
       if(_mode === 'DELETE' && req.body && req.body.idx) {
         if(req.session && req.session.user && req.session.user.idx) {
           const userIdx = req.session.user.idx;
-          const postSql = 'SELECT user_idx FROM posts WHERE idx=?'
-          const [[{ user_idx }]] = await pool.execute(postSql, [req.body.idx])
+          const { user_idx } = await Post.findOne({ where: { idx: req.body.idx }, raw: true });
+          /* const postSql = 'SELECT user_idx FROM posts WHERE idx=?'
+          const [[{ user_idx }]] = await pool.execute(postSql, [req.body.idx]) */
           if(userIdx === user_idx) next();
           else next(createError(400, '잘못된 ...'))
         }
