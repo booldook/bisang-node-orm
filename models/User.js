@@ -20,13 +20,14 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING(255),
       allowNull: false,
     },
-    nickname: {
-      type: Sequelize.STRING(255),
-      allowNull: false,
-    },
     email: {
       type: Sequelize.STRING(255),
       allowNull: false,
+    },
+    grade: {
+      type: Sequelize.INTEGER(2).UNSIGNED,
+      allowNull: false,
+      defaultValue: 1,
     },
   }, {
     tableName: 'users',
@@ -45,7 +46,7 @@ module.exports = (sequelize, Sequelize) => {
       sourceKey: 'idx',
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
-    })
+    });
   }
 
   return User;

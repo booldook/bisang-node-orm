@@ -1,41 +1,32 @@
 module.exports = (sequelize, Sequelize) => {
-  const Post = sequelize.define('Post', {
+  const File = sequelize.define('File', {
     idx: {
       type: Sequelize.INTEGER(10).UNSIGNED,
       primaryKey: true,
       autoIncrement: true,
       allowNull: false,
     },
-    title: {
+    oriname: {
       type: Sequelize.STRING(255),
       allowNull: false,
     },
-    content: {
-      type: Sequelize.TEXT,
+    savename: {
+      type: Sequelize.STRING(255),
       allowNull: false,
     },
-    writer: {
-      type: Sequelize.STRING(255),
+    filesize: {
+      type: Sequelize.INTEGER(10),
       allowNull: false,
     },
   }, {
-    tableName: 'posts',
+    tableName: 'files',
     charset: 'utf8',
     collate: 'utf8_general_ci',
     paranoid: true,
   });
 
-  Post.associate = (models) => {
-    Post.belongsTo(models.User, {
-      foreignKey: {
-        name: 'user_idx',
-        allowNull: false,
-      },
-      sourceKey: 'idx',
-      onUpdate: 'CASCADE',
-      onDelete: 'CASCADE',
-    });
-    Post.hasMany(models.File, {
+  File.associate = (models) => {
+    File.belongsTo(models.Post, {
       foreignKey: {
         name: 'post_idx',
         allowNull: false,
@@ -46,5 +37,5 @@ module.exports = (sequelize, Sequelize) => {
     })
   }
 
-  return Post;
+  return File;
 }
