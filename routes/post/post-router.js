@@ -15,13 +15,10 @@ const express = require('express');
 const router = express.Router();
 const createError = require('http-errors');
 const moment = require('moment');
-const { pool } = require('../../modules/mysql-init');
+const { Post, File } = require('../../models');
 const { isAdmin, isUser, isMine } = require('../../middlewares/auth-mw');
 const { getIsoDate, alert, imgPath, imgPathAbs } = require('../../modules/utils')
 const { pathExists } = require('fs-extra');
-
-// const multer  = require('multer');
-// const uploader = multer({ dest: path.join(__dirname, '../../', '/storages') })
 const uploader = require('../../middlewares/multer-mw');
 
 
@@ -35,6 +32,15 @@ router.post('/', isUser, uploader.single('upfile'), async (req, res, next) => {
       res.send(alert('업로드 할 수 없는 파일입니다.', '/post'));
     }
     const { title, writer, content } = req.body;
+    const post = await Post.create({ title, writer, content, user_idx: req.session.user.idx });
+    if(req.file) {
+      const { originalname: oriname, filename: savename, size: filesize, post_idx = post.idx } = req.file;
+      const file = await File.create({ oriname, savename, filesize, post_idx })
+    }
+    res.redirect('/posts');
+
+
+    /* const { title, writer, content } = req.body;
     const postSql = 'INSERT INTO posts SET title=?, writer=?, content=?, user_idx=?';
     const postValues = [title, writer, content, req.session.user.idx ];
     const [{ insertId }] = await pool.execute(postSql, postValues);
@@ -44,7 +50,7 @@ router.post('/', isUser, uploader.single('upfile'), async (req, res, next) => {
       const fileValues = [originalname, filename, size, insertId];
       const [rs] = await pool.execute(fileSql, fileValues);
     }
-    res.redirect('/posts');
+    res.redirect('/posts'); */
   }
   catch(err) {
     next(createError(500, err))
@@ -53,18 +59,24 @@ router.post('/', isUser, uploader.single('upfile'), async (req, res, next) => {
 
 router.get('/:idx', async (req, res, next) => {
   try {
-    // 여기를 구현
-    const sql = `
+    const post = await Post.findOne({ 
+      where: { idx: req.params.idx },
+      include: { 
+        model: File,
+        attributes: ['idx', 'oriname', 'savename'],
+      },
+    });
+    res.json(post);
+
+    /* const sql = `
     SELECT p.*, f.idx AS f_idx, f.oriname, f.savename 
     FROM posts AS p LEFT JOIN files AS f 
       ON p.idx = f.post_idx
     WHERE p.idx=?`;
     const [[rs]] = await pool.execute(sql, [req.params.idx]);
-    // res.json(rs);
     rs.wdate = getIsoDate(rs.wdate);
     rs.src = rs.savename ? imgPath(rs.savename) : '';
-    res.render('post/view', { ...rs });
-    // res.json(rs);
+    res.render('post/view', { ...rs }); */
   }
   catch(err) {
     next(createError(500, err))

@@ -31,7 +31,7 @@ app.locals.pretty = true;
 app.locals.headTitle = '비상교육-nodejs';
 
 /* sequelize init */
-sequelize.sync({ force: true });
+sequelize.sync({ /* force: true */ });
 
 /* middleware init */
 app.use(express.json()); // req.body
