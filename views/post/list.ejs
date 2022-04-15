@@ -16,7 +16,7 @@
       <tr>
         <td><%= idx %></td>
         <td>
-          <img src="<%= src %>" alt="표지" style="max-width: 60px;">
+          <img src="<%= src || 'https://via.placeholder.com/60' %>" alt="표지" style="max-width: 60px;">
         </td>
         <td><a href="/post/<%= idx %>"><%= title %></a></td>
         <td><%= content %></td>

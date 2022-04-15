@@ -1,3 +1,5 @@
+const { getIsoDate, alert, imgPath, imgPathAbs } = require('../modules/utils')
+
 module.exports = (sequelize, Sequelize) => {
   const File = sequelize.define('File', {
     idx: {
@@ -13,6 +15,10 @@ module.exports = (sequelize, Sequelize) => {
     savename: {
       type: Sequelize.STRING(255),
       allowNull: false,
+      /* get() {
+        console.log(this.getDataValue('savename'));
+        return imgPath(this.getDataValue('savename'))
+      } */
     },
     filesize: {
       type: Sequelize.INTEGER(10),

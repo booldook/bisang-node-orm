@@ -1,3 +1,5 @@
+const { getIsoDate, alert, imgPath, imgPathAbs } = require('../modules/utils')
+
 module.exports = (sequelize, Sequelize) => {
   const Post = sequelize.define('Post', {
     idx: {
@@ -46,5 +48,17 @@ module.exports = (sequelize, Sequelize) => {
     })
   }
 
+  Post.getPost = post => {
+    post.wdate = getIsoDate(post.createdAt);
+    if(post.Files && post.Files.savename) {
+      post.src = imgPath(post.Files.savename);
+      post.oriname = post.Files.oriname || '';
+      post.f_idx = post.Files.idx;
+    }
+    return post;
+  }
+
+  Post.getPosts = posts => posts.map(post => Post.getPost(post));
+  
   return Post;
 }

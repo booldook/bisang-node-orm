@@ -65,8 +65,11 @@ router.get('/:idx', async (req, res, next) => {
         model: File,
         attributes: ['idx', 'oriname', 'savename'],
       },
+      raw: true,
+      nest: true,
     });
-    res.json(post);
+    // res.json(Post.getPost(post));
+    res.render('post/view', Post.getPost(post));
 
     /* const sql = `
     SELECT p.*, f.idx AS f_idx, f.oriname, f.savename 
@@ -85,14 +88,22 @@ router.get('/:idx', async (req, res, next) => {
 
 router.get('/download/:idx', async (req, res, next) => {  // 다운로드 구현
   try {
-    const sql = 'SELECT oriname, savename FROM files WHERE idx=?';
+    const file = await File.findOne({ where: { idx: req.params.idx }, raw: true, });
+    if(file) {
+      res.download(imgPathAbs(file.savename), file.oriname);
+    }
+    else {
+      next(createError(403, '잘못된 접근입니다.'))
+    }
+
+    /* const sql = 'SELECT oriname, savename FROM files WHERE idx=?';
     const [rs] = await pool.execute(sql, [req.params.idx]);
     if(rs.length) {
       const { savename, oriname } = rs[0];
       // res.json({ oriname, savename });
       res.download(imgPathAbs(savename), oriname);
     }
-    else next(createError(403, '잘못된 접근입니다.'))
+    else next(createError(403, '잘못된 접근입니다.')) */
   }
   catch (err) {
     next(createError(500, err))
