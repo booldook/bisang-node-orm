@@ -18,6 +18,9 @@ const postsRouter = require('./routes/post/posts-router');
 const postRouter = require('./routes/post/post-router');
 const joinRouter = require('./routes/auth/join-router');
 const authRouter = require('./routes/auth/auth-router');
+const apiAuthRouter = require('./routes/api/auth/auth-router');
+const apiPostRouter = require('./routes/api/post/post-router');
+const apiPostsRouter = require('./routes/api/post/posts-router');
 const notFoundRouter = require('./routes/error/err404-router');
 const errorRouter = require('./routes/error/err-router');
 
@@ -61,6 +64,9 @@ app.use('/posts', postsRouter);
 app.use('/post', postRouter);
 app.use('/join', joinRouter);
 app.use('/auth', authRouter);
+app.use('/api/auth', apiAuthRouter);
+app.use('/api/post', apiPostRouter);
+app.use('/api/posts', apiPostsRouter);
 
 /* error router init */
 app.use(notFoundRouter);
