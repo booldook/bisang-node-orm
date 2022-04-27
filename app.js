@@ -4,6 +4,8 @@ const path = require('path');
 const express = require('express');
 const app = express();
 
+const cors = require('cors');
+
 /* model import */
 const { sequelize } = require('./models');
 
@@ -43,6 +45,11 @@ sequelize.sync({ /* force: true */ });
 /* middleware init */
 app.use(express.json()); // req.body
 app.use(express.urlencoded({ extended: false })); // req.body
+
+/* cors init */
+app.use(cors({
+  origin: 'http://127.0.0.1:3000',
+}))
 
 /* session init */
 app.use(expressSession(app));

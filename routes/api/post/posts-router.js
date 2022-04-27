@@ -23,24 +23,8 @@ router.get(['/', '/:page'], logger('common', 'access-posts.log'), async (req, re
         attributes: ['idx', 'savename'],
       } 
     });
-    // res.json(Post.getPosts(posts));
-    res.status(200).render('post/list', { title: 'TITLE', posts: Post.getPosts(posts), ...pager })
-
-    /* const pagerSql = 'SELECT count(idx) AS cnt FROM posts';
-    const [[{ cnt }]] = await pool.execute(pagerSql);
-    const pager = pagerFn(req.params.page || 1, cnt, 3, 3);
-    const listSql = `
-      SELECT p.*, f.idx AS f_idx, f.savename 
-      FROM posts AS p LEFT JOIN files AS f
-        ON p.idx = f.post_idx
-      ORDER BY p.idx DESC LIMIT ?, ?`;
-    const [rs] = await pool.execute(listSql, [ pager.startIdx, pager.listCnt ]);
-    const posts = rs.map(v => {
-      v.wdate = moment(v.wdate).format('YYYY-MM-DD');
-      v.src = v.savename ? imgPath(v.savename) : '/img/gallery.png';
-      return v;
-    });
-    res.status(200).render('post/list', { title: 'TITLE', posts, ...pager }) */
+    res.status(200).json({ posts: Post.getPosts(posts), pager });
+    // res.status(200).render('post/list', { title: 'TITLE', posts: Post.getPosts(posts), ...pager })
   }
   catch(err) {
     next(createError(500, err))
