@@ -8,10 +8,6 @@ const { User } = require('../../../models');
 const loginValidator = require('../../../middlewares/login-mw');
 const { isGuest, isUser } = require('../../../middlewares/auth-mw');
 
-// 회원로그인창
-router.get('/', isGuest, (req, res, next) => {
-  res.render('auth/login');
-});
 
 // 로그인처리
 router.post('/', isGuest, loginValidator, async (req, res, next) => {
@@ -29,38 +25,15 @@ router.post('/', isGuest, loginValidator, async (req, res, next) => {
           email: user.email,
           grade: user.grade,
         }
-        res.redirect('/');
+        res.status(200).json({ success: true, user: req.session.user });
       }
       else {
-        res.status(200).send(alert('아이디와 패스워드를 확인하세요.', '/auth'));
+        res.status(401).json({ success: true, err: '아이디와 패스워드를 확인하세요.' });
       }
     }
     else {
-      res.status(200).send(alert('아이디와 패스워드를 확인하세요.', '/auth'));
+      res.status(401).json({ success: true, err: '아이디와 패스워드를 확인하세요.' });
     }
-
-
-    /* const { userid, userpw } = req.body;
-    const { BCRYPT_SALT } = process.env;
-    const sqlUser = 'SELECT * FROM users WHERE userid=?';
-    const [rs] = await pool.execute(sqlUser, [userid]);
-    if(rs.length) {
-      const compare = await bcrypt.compare(userpw + BCRYPT_SALT, rs[0].userpw);
-      if(compare) {
-        req.session.user = {
-          idx: rs[0].idx,
-          userid: rs[0].userid,
-          username: rs[0].username,
-          email: rs[0].email,
-          grade: rs[0].grade,
-        }
-        res.redirect('/');
-      }
-      else res.status(200).send(alert('아이디와 패스워드를 확인하세요.', '/auth'));
-    }
-    else {
-      res.status(200).send(alert('아이디와 패스워드를 확인하세요.', '/auth'));
-    } */
   } 
   catch (err) {
     next(createError(500, err));

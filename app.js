@@ -47,9 +47,16 @@ app.use(express.json()); // req.body
 app.use(express.urlencoded({ extended: false })); // req.body
 
 /* cors init */
-app.use(cors({
-  origin: 'http://127.0.0.1:3000',
-}))
+/* app.use(cors({
+  origin: (origin, callback) => {
+    if (process.env.WHITELIST.split(',').includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+})) */
+app.use(cors({ origin: true, credentials: true }))
 
 /* session init */
 app.use(expressSession(app));
