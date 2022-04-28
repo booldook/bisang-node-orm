@@ -20,6 +20,7 @@ const postsRouter = require('./routes/post/posts-router');
 const postRouter = require('./routes/post/post-router');
 const joinRouter = require('./routes/auth/join-router');
 const authRouter = require('./routes/auth/auth-router');
+const apiTokenRouter = require('./routes/api/auth/token-router');
 const apiAuthRouter = require('./routes/api/auth/auth-router');
 const apiPostRouter = require('./routes/api/post/post-router');
 const apiPostsRouter = require('./routes/api/post/posts-router');
@@ -56,7 +57,7 @@ app.use(express.urlencoded({ extended: false })); // req.body
     }
   },
 })) */
-app.use(cors({ origin: true, credentials: true }))
+app.use(cors({ origin: true, /* credentials: true */ }))
 
 /* session init */
 app.use(expressSession(app));
@@ -79,6 +80,7 @@ app.use('/post', postRouter);
 app.use('/join', joinRouter);
 app.use('/auth', authRouter);
 app.use('/api/auth', apiAuthRouter);
+app.use('/api/token', apiTokenRouter);
 app.use('/api/post', apiPostRouter);
 app.use('/api/posts', apiPostsRouter);
 

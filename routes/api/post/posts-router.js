@@ -8,7 +8,12 @@ const { isUser } = require('../../../middlewares/auth-mw');
 const pagerFn = require('../../../modules/pager-init');
 const { imgPath } = require('../../../modules/utils');
 
-router.get(['/', '/:page'], logger('common', 'access-posts.log'), async (req, res, next) => {
+router.get(['/', '/:page'], (req, res, next) => {
+  console.log(req);
+  console.log(req.headers);
+  console.log(req.headers.authorization);
+  next();
+}, logger('common', 'access-posts.log'), async (req, res, next) => {
   try {
     const post = await Post.findAll({ attributes: ['idx'], raw: true });
     const cnt = post.length;

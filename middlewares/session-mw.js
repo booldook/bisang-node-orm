@@ -7,7 +7,7 @@ const options = {
   name: 'Bisang',
   secret: process.env.SESSION_SALT,
   resave: false, // 접속할때 마다 갱신(true)
-  saveUninitialized: true,
+  saveUninitialized: false,
   genid: () => uuidv4(), // id 생성, 안쓰면 알아서 index로 들어간다.
   cookie: {
     secure: false,  // true: https에서만 사용 가능
