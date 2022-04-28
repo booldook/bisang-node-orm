@@ -7,12 +7,21 @@ const logger = require('../../../middlewares/logger-mw');
 const { isUser } = require('../../../middlewares/auth-mw');
 const pagerFn = require('../../../modules/pager-init');
 const { imgPath } = require('../../../modules/utils');
+const jwt = require('jsonwebtoken');
 
 router.get(['/', '/:page'], (req, res, next) => {
-  console.log(req);
-  console.log(req.headers);
-  console.log(req.headers.authorization);
-  next();
+  try {
+    const token = req.headers.token
+    const decode = jwt.verify(token, process.env.TOKEN_SALT);
+    if(decode) {
+      console.log(decode)
+      next();
+    }
+  }
+  catch(err) {
+    console.log(err)
+    next(err);
+  }
 }, logger('common', 'access-posts.log'), async (req, res, next) => {
   try {
     const post = await Post.findAll({ attributes: ['idx'], raw: true });
