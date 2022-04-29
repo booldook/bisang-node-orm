@@ -11,10 +11,10 @@ const jwt = require('jsonwebtoken');
 
 router.get(['/', '/:page'], (req, res, next) => {
   try {
-    const token = req.headers.token
+    const token = req.headers.authorization;
+    console.log(req.header);
     const decode = jwt.verify(token, process.env.TOKEN_SALT);
     if(decode) {
-      console.log(decode)
       next();
     }
   }

@@ -28,8 +28,7 @@ router.post('/', /* isGuest, loginValidator, */ async (req, res, next) => {
           grade: user.grade,
         }, 
         process.env.TOKEN_SALT, {
-          // algorithm: 'RS256',
-          expiresIn: '15m',
+          expiresIn: '1d',
         });
         console.log(token);
         res.status(200).json({ success: true, user: req.session.user, token });
